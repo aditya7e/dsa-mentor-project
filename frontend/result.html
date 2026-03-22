@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Mentor - Results</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="result-page">
+            <h1>📊 Quiz Results</h1>
+            
+            <div class="score-card">
+                <div class="score-circle">
+                    <div class="score-number" id="scoreNumber"></div>
+                    <div class="score-total" id="scoreTotal"></div>
+                </div>
+                <div class="score-percentage" id="scorePercentage"></div>
+            </div>
+
+            <div class="performance-breakdown">
+                <h2>Topic-wise Performance</h2>
+                <div id="topicBreakdown"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" id="generateRoadmapBtn">
+                    Get Learning Roadmap →
+                </button>
+                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                    Take Another Quiz
+                </button>
+            </div>
+
+            <div id="loadingRoadmap" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating personalized roadmap...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const results = JSON.parse(localStorage.getItem('quizResults'));
+        const quizData = JSON.parse(localStorage.getItem('quizData'));
+
+        if (!results) {
+            alert('No results found! Redirecting to home...');
+            window.location.href = 'index.html';
+        }
+
+        // Display score
+        const percentage = Math.round((results.score / results.total) * 100);
+        document.getElementById('scoreNumber').textContent = results.score;
+        document.getElementById('scoreTotal').textContent = `/ ${results.total}`;
+        document.getElementById('scorePercentage').textContent = `${percentage}% Score`;
+
+        // Display topic breakdown
+        const topicBreakdown = document.getElementById('topicBreakdown');
+        let breakdownHTML = '';
+
+        for (const [topic, stats] of Object.entries(results.topicPerformance)) {
+            const topicPercentage = Math.round((stats.correct / stats.total) * 100);
+            breakdownHTML += `
+                <div class="topic-item">
+                    <div class="topic-name">${topic}</div>
+                    <div class="topic-stats">
+                        ${stats.correct}/${stats.total} (${topicPercentage}%)
+                    </div>
+                    <div class="topic-bar">
+                        <div class="topic-bar-fill" style="width: ${topicPercentage}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        topicBreakdown.innerHTML = breakdownHTML;
+
+        // Generate Roadmap
+        document.getElementById('generateRoadmapBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('generateRoadmapBtn');
+            const loading = document.getElementById('loadingRoadmap');
+            
+            btn.style.display = 'none';
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/roadmap/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_answers: results.userAnswers,
+                        quiz_questions: quizData
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Store roadmap
+                    localStorage.setItem('roadmap', JSON.stringify(data.roadmap));
+                    
+                    // Redirect to roadmap page
+                    window.location.href = 'roadmap.html';
+                } else {
+                    alert('Failed to generate roadmap: ' + data.message);
+                    btn.style.display = 'block';
+                    loading.style.display = 'none';
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                btn.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

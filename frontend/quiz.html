@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Mentor - Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-page">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="quiz-header">
+                <div class="question-counter" id="questionCounter"></div>
+                <div class="difficulty-badge" id="difficultyBadge"></div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" id="prevBtn">← Previous</button>
+                <button class="btn-primary" id="nextBtn">Next →</button>
+                <button class="btn-success" id="submitBtn" style="display: none;">Submit Quiz ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let quizData = JSON.parse(localStorage.getItem('quizData'));
+        let currentQuestion = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        // Check if quiz data exists
+        if (!quizData) {
+            alert('No quiz found! Redirecting to home...');
+            window.location.href = 'index.html';
+        }
+
+        function displayQuestion() {
+            const question = quizData[currentQuestion];
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+
+            // Update progress bar
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Update question counter
+            document.getElementById('questionCounter').textContent = 
+                `Question ${currentQuestion + 1} of ${quizData.length}`;
+
+            // Update difficulty badge
+            const badge = document.getElementById('difficultyBadge');
+            badge.textContent = question.difficulty;
+            badge.className = 'difficulty-badge difficulty-' + question.difficulty;
+
+            // Update question text
+            document.getElementById('questionText').textContent = question.question;
+
+            // Update options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = question.options.map((option, index) => {
+                const optionLetter = String.fromCharCode(65 + index);
+                const isSelected = userAnswers[currentQuestion] === optionLetter;
+                return `
+                    <div class="option ${isSelected ? 'selected' : ''}" 
+                         onclick="selectOption('${optionLetter}')">
+                        ${option}
+                    </div>
+                `;
+            }).join('');
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            
+            if (currentQuestion === quizData.length - 1) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'block';
+            } else {
+                document.getElementById('nextBtn').style.display = 'block';
+                document.getElementById('submitBtn').style.display = 'none';
+            }
+        }
+
+        function selectOption(answer) {
+            userAnswers[currentQuestion] = answer;
+            displayQuestion();
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        });
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            // Calculate score
+            let score = 0;
+            let topicPerformance = {};
+
+            quizData.forEach((q, index) => {
+                const isCorrect = userAnswers[index] === q.correct_answer;
+                
+                if (isCorrect) score++;
+
+                // Track topic performance
+                if (!topicPerformance[q.topic]) {
+                    topicPerformance[q.topic] = { correct: 0, total: 0 };
+                }
+                topicPerformance[q.topic].total++;
+                if (isCorrect) topicPerformance[q.topic].correct++;
+            });
+
+            // Store results
+            localStorage.setItem('quizResults', JSON.stringify({
+                score: score,
+                total: quizData.length,
+                topicPerformance: topicPerformance,
+                userAnswers: userAnswers
+            }));
+
+            // Redirect to results
+            window.location.href = 'result.html';
+        });
+
+        // Display first question
+        displayQuestion();
+    </script>
+</body>
+</html>

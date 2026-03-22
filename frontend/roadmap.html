@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Mentor - Your Roadmap</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .roadmap-page {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .roadmap-header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .week-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .week-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .week-badge {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .focus-area {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .difficulty-distribution {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .diff-item {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .resources-section {
+            margin-bottom: 20px;
+        }
+
+        .resources-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .resource-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .resource-link {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .resource-link:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .problems-list {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .problem-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .problem-item:last-child {
+            border-bottom: none;
+        }
+
+        .problem-name {
+            flex: 1;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .problem-link {
+            background: #28a745;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .problem-link:hover {
+            background: #218838;
+        }
+
+        .back-button {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="roadmap-page">
+            <div class="roadmap-header">
+                <h1>🗺️ Your Personalized Learning Roadmap</h1>
+                <p>Follow this 8-week plan to master DSA</p>
+            </div>
+
+            <div id="roadmapContent"></div>
+
+            <div class="back-button">
+                <button class="btn-primary" onclick="window.location.href='index.html'">
+                    Start New Assessment
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const roadmapStr = localStorage.getItem('roadmap');
+    console.log('Raw roadmap from localStorage:', roadmapStr);
+    
+    if (!roadmapStr || roadmapStr === '[]') {
+        alert('No roadmap found! Please complete the quiz first.');
+        window.location.href = 'index.html';
+    }
+
+    let roadmap;
+    try {
+        roadmap = JSON.parse(roadmapStr);
+        console.log('Parsed roadmap:', roadmap);
+        
+        if (!Array.isArray(roadmap) || roadmap.length === 0) {
+            alert('Roadmap is empty! Please try generating again.');
+            window.location.href = 'result.html';
+        }
+    } catch (e) {
+        console.error('Failed to parse roadmap:', e);
+        alert('Error loading roadmap. Please try again.');
+        window.location.href = 'result.html';
+    }
+
+    const roadmapContent = document.getElementById('roadmapContent');
+    let html = '';
+
+    roadmap.forEach(week => {
+        // Ensure problems array exists
+        const problems = week.problems || [];
+        const resources = week.learning_resources || [];
+        const diffSplit = week.difficulty_split || {};
+
+        html += `
+            <div class="week-card">
+                <div class="week-header">
+                    <div class="week-title">Week ${week.week}: ${week.topic}</div>
+                    <div class="week-badge">${problems.length} Problems</div>
+                </div>
+
+                <div class="focus-area">
+                    📌 Focus: ${week.focus || 'Complete the problems listed below'}
+                </div>
+
+                <div class="difficulty-distribution">
+                    ${Object.entries(diffSplit).map(([diff, count]) => 
+                        count > 0 ? `<div class="diff-item difficulty-${diff}">${count} ${diff}</div>` : ''
+                    ).join('')}
+                </div>
+
+                ${resources.length > 0 ? `
+                    <div class="resources-section">
+                        <div class="resources-title">📚 Learning Resources:</div>
+                        <div class="resource-links">
+                            ${resources.map(resource => 
+                                `<a href="${resource.link}" target="_blank" class="resource-link">
+                                    ${resource.title}
+                                </a>`
+                            ).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="problems-list">
+                    ${problems.length > 0 ? problems.map((problem, index) => `
+                        <div class="problem-item">
+                            <div class="problem-name">
+                                ${index + 1}. ${problem.name}
+                                <span class="difficulty-badge difficulty-${problem.difficulty}" style="margin-left: 10px; font-size: 12px;">
+                                    ${problem.difficulty}
+                                </span>
+                            </div>
+                            <a href="${problem.link}" target="_blank" class="problem-link">
+                                Solve →
+                            </a>
+                        </div>
+                    `).join('') : '<p style="padding: 15px; color: #666;">No problems available for this week.</p>'}
+                </div>
+            </div>
+        `;
+    });
+
+    roadmapContent.innerHTML = html;
+    console.log('Roadmap rendered successfully!');
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Mentor - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="landing-page">
+            <h1>🎯 DSA Mentor</h1>
+            <p class="tagline">Master Data Structures & Algorithms with AI-powered learning</p>
+            
+            <div class="feature-box">
+                <h2>Ready to test your DSA knowledge?</h2>
+                <p>Take our comprehensive 30-question quiz covering:</p>
+                <ul>
+                    <li>✓ Arrays & Strings</li>
+                    <li>✓ Linked Lists</li>
+                    <li>✓ Trees & Graphs</li>
+                    <li>✓ Dynamic Programming</li>
+                    <li>✓ Sorting & Searching</li>
+                    <li>✓ Stacks & Queues</li>
+                </ul>
+            </div>
+
+            <button class="btn-primary" id="generateQuizBtn">
+                Generate Quiz
+            </button>
+
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating personalized quiz...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const generateBtn = document.getElementById('generateQuizBtn');
+        const loading = document.getElementById('loading');
+
+        generateBtn.addEventListener('click', async () => {
+            generateBtn.style.display = 'none';
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/quiz/generate');
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    // Store quiz in localStorage
+                    localStorage.setItem('quizData', JSON.stringify(result.data.questions));
+                    // Redirect to quiz page
+                    window.location.href = 'quiz.html';
+                } else {
+                    alert('Failed to generate quiz. Please try again.');
+                    generateBtn.style.display = 'block';
+                    loading.style.display = 'none';
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                generateBtn.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

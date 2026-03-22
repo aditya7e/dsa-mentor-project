@@ -1,0 +1,390 @@
+{
+  "Recursion": [
+    {
+      "id": 45,
+      "name": "Subset Sums",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/subset-sum-problem/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 46,
+      "name": "Subsets II",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/subsets-ii/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 47,
+      "name": "Combination Sum",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/combination-sum/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 48,
+      "name": "Combination Sum II",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/combination-sum-ii/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 49,
+      "name": "Palindrome Partitioning",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/palindrome-partitioning/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 50,
+      "name": "K-th Permutation Sequence",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/permutation-sequence/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 51,
+      "name": "Print All Permutations",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/permutations/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 52,
+      "name": "N Queens",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/n-queens/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 53,
+      "name": "Sudoku Solver",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/sudoku-solver/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 54,
+      "name": "M Coloring Problem",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/m-coloring-problem-backtracking-5/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 55,
+      "name": "Rat in a Maze",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/rat-in-a-maze/",
+      "topic": "Recursion"
+    },
+    {
+      "id": 56,
+      "name": "Word Break",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/word-break/",
+      "topic": "Recursion"
+    }
+  ],
+  "Binary Search": [
+    {
+      "id": 57,
+      "name": "Binary Search",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/binary-search/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 58,
+      "name": "Search in Rotated Sorted Array",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 59,
+      "name": "Median of Two Sorted Arrays",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 60,
+      "name": "K-th Element of Two Sorted Arrays",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/k-th-element-two-sorted-arrays/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 61,
+      "name": "Allocate Minimum Pages",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/allocate-minimum-number-pages/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 62,
+      "name": "Aggressive Cows",
+      "difficulty": "Hard",
+      "link": "https://www.spoj.com/problems/AGGRCOW/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 63,
+      "name": "Find Peak Element",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/find-peak-element/",
+      "topic": "Binary Search"
+    },
+    {
+      "id": 64,
+      "name": "Single Element in Sorted Array",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/single-element-in-a-sorted-array/",
+      "topic": "Binary Search"
+    }
+  ],
+  "Heaps": [
+    {
+      "id": 65,
+      "name": "Max Heap",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/max-heap-in-java/",
+      "topic": "Heaps"
+    },
+    {
+      "id": 66,
+      "name": "Min Heap",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/min-heap-in-java/",
+      "topic": "Heaps"
+    },
+    {
+      "id": 67,
+      "name": "Kth Largest Element",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+      "topic": "Heaps"
+    },
+    {
+      "id": 68,
+      "name": "Maximum Sum Combination",
+      "difficulty": "Medium",
+      "link": "https://www.interviewbit.com/problems/maximum-sum-combinations/",
+      "topic": "Heaps"
+    },
+    {
+      "id": 69,
+      "name": "Find Median from Data Stream",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/find-median-from-data-stream/",
+      "topic": "Heaps"
+    },
+    {
+      "id": 70,
+      "name": "Merge K Sorted Arrays",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/merge-k-sorted-arrays/",
+      "topic": "Heaps"
+    },
+    {
+      "id": 71,
+      "name": "Top K Frequent Elements",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/top-k-frequent-elements/",
+      "topic": "Heaps"
+    }
+  ],
+  "Stack and Queue": [
+    {
+      "id": 72,
+      "name": "Implement Stack using Arrays",
+      "difficulty": "Easy",
+      "link": "https://www.geeksforgeeks.org/stack-data-structure-introduction-program/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 73,
+      "name": "Implement Queue using Arrays",
+      "difficulty": "Easy",
+      "link": "https://www.geeksforgeeks.org/queue-set-1introduction-and-array-implementation/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 74,
+      "name": "Valid Parentheses",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/valid-parentheses/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 75,
+      "name": "Next Greater Element",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/next-greater-element-i/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 76,
+      "name": "Sort a Stack",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/sort-stack-using-temporary-stack/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 77,
+      "name": "Next Smaller Element",
+      "difficulty": "Medium",
+      "link": "https://www.interviewbit.com/problems/nearest-smaller-element/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 78,
+      "name": "LRU Cache",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/lru-cache/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 79,
+      "name": "LFU Cache",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/lfu-cache/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 80,
+      "name": "Largest Rectangle in Histogram",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 81,
+      "name": "Sliding Window Maximum",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/sliding-window-maximum/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 82,
+      "name": "Implement Min Stack",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/min-stack/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 83,
+      "name": "Rotten Oranges",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/rotting-oranges/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 84,
+      "name": "Stock Span Problem",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/online-stock-span/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 85,
+      "name": "Maximum of Minimum for Every Window Size",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/find-the-maximum-of-minimums-for-every-window-size-in-a-given-array/",
+      "topic": "Stack and Queue"
+    },
+    {
+      "id": 86,
+      "name": "Celebrity Problem",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/the-celebrity-problem/",
+      "topic": "Stack and Queue"
+    }
+  ],
+  "String": [
+    {
+      "id": 87,
+      "name": "Reverse Words in a String",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/reverse-words-in-a-string/",
+      "topic": "String"
+    },
+    {
+      "id": 88,
+      "name": "Longest Palindromic Substring",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/longest-palindromic-substring/",
+      "topic": "String"
+    },
+    {
+      "id": 89,
+      "name": "Roman to Integer",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/roman-to-integer/",
+      "topic": "String"
+    },
+    {
+      "id": 90,
+      "name": "Integer to Roman",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/integer-to-roman/",
+      "topic": "String"
+    },
+    {
+      "id": 91,
+      "name": "Implement strStr()",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/implement-strstr/",
+      "topic": "String"
+    },
+    {
+      "id": 92,
+      "name": "Longest Common Prefix",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/longest-common-prefix/",
+      "topic": "String"
+    },
+    {
+      "id": 93,
+      "name": "Rabin Karp Algorithm",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/",
+      "topic": "String"
+    },
+    {
+      "id": 94,
+      "name": "KMP Algorithm",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/",
+      "topic": "String"
+    },
+    {
+      "id": 95,
+      "name": "Minimum Characters for Palindrome",
+      "difficulty": "Hard",
+      "link": "https://www.interviewbit.com/problems/minimum-characters-required-to-make-a-string-palindromic/",
+      "topic": "String"
+    },
+    {
+      "id": 96,
+      "name": "Check for Anagrams",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/valid-anagram/",
+      "topic": "String"
+    },
+    {
+      "id": 97,
+      "name": "Count and Say",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/count-and-say/",
+      "topic": "String"
+    },
+    {
+      "id": 98,
+      "name": "Compare Version Numbers",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/compare-version-numbers/",
+      "topic": "String"
+    }
+  ]
+}

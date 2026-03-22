@@ -1,0 +1,316 @@
+{
+  "Arrays": [
+    {
+      "id": 1,
+      "name": "Set Matrix Zeroes",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/set-matrix-zeroes/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 2,
+      "name": "Pascal's Triangle",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/pascals-triangle/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 3,
+      "name": "Next Permutation",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/next-permutation/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 4,
+      "name": "Maximum Subarray (Kadane's Algorithm)",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/maximum-subarray/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 5,
+      "name": "Sort Colors",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/sort-colors/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 6,
+      "name": "Best Time to Buy and Sell Stock",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 7,
+      "name": "Rotate Image",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/rotate-image/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 8,
+      "name": "Merge Intervals",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/merge-intervals/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 9,
+      "name": "Merge Sorted Array",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/merge-sorted-array/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 10,
+      "name": "Find the Duplicate Number",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/find-the-duplicate-number/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 11,
+      "name": "Repeat and Missing Number",
+      "difficulty": "Medium",
+      "link": "https://www.interviewbit.com/problems/repeat-and-missing-number-array/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 12,
+      "name": "Inversion of Array",
+      "difficulty": "Hard",
+      "link": "https://www.geeksforgeeks.org/count-inversions/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 13,
+      "name": "Search in a 2D Matrix",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/search-a-2d-matrix/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 14,
+      "name": "Pow(x, n)",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/powx-n/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 15,
+      "name": "Majority Element (>N/2 times)",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/majority-element/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 16,
+      "name": "Majority Element II (>N/3 times)",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/majority-element-ii/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 17,
+      "name": "Grid Unique Paths",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/unique-paths/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 18,
+      "name": "Reverse Pairs",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/reverse-pairs/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 19,
+      "name": "Two Sum",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/two-sum/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 20,
+      "name": "4 Sum",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/4sum/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 21,
+      "name": "Longest Consecutive Sequence",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/longest-consecutive-sequence/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 22,
+      "name": "Largest Subarray with 0 Sum",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/find-the-largest-subarray-with-0-sum/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 23,
+      "name": "Count Subarrays with Given XOR",
+      "difficulty": "Medium",
+      "link": "https://www.interviewbit.com/problems/subarray-with-given-xor/",
+      "topic": "Arrays"
+    },
+    {
+      "id": 24,
+      "name": "Longest Substring Without Repeating Characters",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+      "topic": "Arrays"
+    }
+  ],
+  "Linked List": [
+    {
+      "id": 25,
+      "name": "Reverse Linked List",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/reverse-linked-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 26,
+      "name": "Find Middle of Linked List",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/middle-of-the-linked-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 27,
+      "name": "Merge Two Sorted Lists",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/merge-two-sorted-lists/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 28,
+      "name": "Remove Nth Node From End",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 29,
+      "name": "Delete Node in a Linked List",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/delete-node-in-a-linked-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 30,
+      "name": "Add Two Numbers",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/add-two-numbers/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 31,
+      "name": "Intersection of Two Linked Lists",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/intersection-of-two-linked-lists/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 32,
+      "name": "Linked List Cycle",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/linked-list-cycle/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 33,
+      "name": "Reverse Nodes in k-Group",
+      "difficulty": "Hard",
+      "link": "https://leetcode.com/problems/reverse-nodes-in-k-group/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 34,
+      "name": "Palindrome Linked List",
+      "difficulty": "Easy",
+      "link": "https://leetcode.com/problems/palindrome-linked-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 35,
+      "name": "Starting Point of Loop in Linked List",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/linked-list-cycle-ii/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 36,
+      "name": "Flattening a Linked List",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/flattening-a-linked-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 37,
+      "name": "Rotate List",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/rotate-list/",
+      "topic": "Linked List"
+    },
+    {
+      "id": 38,
+      "name": "Clone a Linked List with Random Pointer",
+      "difficulty": "Medium",
+      "link": "https://leetcode.com/problems/copy-list-with-random-pointer/",
+      "topic": "Linked List"
+    }
+  ],
+  "Greedy": [
+    {
+      "id": 39,
+      "name": "N Meetings in One Room",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/find-maximum-meetings-in-one-room/",
+      "topic": "Greedy"
+    },
+    {
+      "id": 40,
+      "name": "Minimum Platforms",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/",
+      "topic": "Greedy"
+    },
+    {
+      "id": 41,
+      "name": "Job Sequencing Problem",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/job-sequencing-problem/",
+      "topic": "Greedy"
+    },
+    {
+      "id": 42,
+      "name": "Fractional Knapsack",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/fractional-knapsack-problem/",
+      "topic": "Greedy"
+    },
+    {
+      "id": 43,
+      "name": "Find Minimum Number of Coins",
+      "difficulty": "Easy",
+      "link": "https://www.geeksforgeeks.org/find-minimum-number-of-coins-that-make-a-change/",
+      "topic": "Greedy"
+    },
+    {
+      "id": 44,
+      "name": "Activity Selection",
+      "difficulty": "Medium",
+      "link": "https://www.geeksforgeeks.org/activity-selection-problem-greedy-algo-1/",
+      "topic": "Greedy"
+    }
+  ]
+}
