@@ -1,0 +1,90 @@
+import React from 'react';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  Button,
+  VStack,
+  HStack,
+} from '@chakra-ui/react';
+
+const WeekTestResultPage = ({ week, result, onContinue }) => {
+  const { score, total, percentage, passed } = result;
+
+  return (
+    <Box minH="100vh" bg="gray.50" py={12}>
+      <Container maxW="container.md">
+        <VStack spacing={8}>
+          {/* Result Card */}
+          <Box
+            bg="white"
+            borderRadius="xl"
+            p={8}
+            boxShadow="xl"
+            w="full"
+            textAlign="center"
+          >
+            <Box
+              bgGradient={
+                passed
+                  ? 'linear(to-br, green.500, green.600)'
+                  : 'linear(to-br, orange.500, red.500)'
+              }
+              borderRadius="2xl"
+              p={8}
+              mb={6}
+            >
+              <Text fontSize="6xl" fontWeight="bold" color="white">
+                {score}
+              </Text>
+              <Text fontSize="2xl" color="whiteAlpha.900">
+                / {total}
+              </Text>
+              <Text fontSize="3xl" fontWeight="bold" color="white" mt={4}>
+                {percentage}%
+              </Text>
+            </Box>
+
+            {passed ? (
+              <VStack spacing={4}>
+                <Heading as="h2" size="lg" color="green.600">
+                  🎉 Congratulations!
+                </Heading>
+                <Text fontSize="lg" color="gray.600">
+                  You passed Week {week} test! You can now move to the next week.
+                </Text>
+              </VStack>
+            ) : (
+              <VStack spacing={4}>
+                <Heading as="h2" size="lg" color="orange.600">
+                  📚 Keep Practicing
+                </Heading>
+                <Text fontSize="lg" color="gray.600">
+                  You scored below 70%. We've added more problems to Week {week}{' '}
+                  to help you improve.
+                </Text>
+                <Text fontSize="md" color="gray.500">
+                  Complete the additional problems and retake the test.
+                </Text>
+              </VStack>
+            )}
+          </Box>
+
+          {/* Action Button */}
+          <Button
+            size="lg"
+            colorScheme={passed ? 'green' : 'orange'}
+            onClick={onContinue}
+            w="full"
+            maxW="400px"
+          >
+            {passed ? 'Continue to Roadmap →' : 'Back to Week ' + week}
+          </Button>
+        </VStack>
+      </Container>
+    </Box>
+  );
+};
+
+export default WeekTestResultPage;
