@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
@@ -6,11 +6,19 @@ import {
   Text,
   Button,
   VStack,
-  HStack,
+  Spinner,
+  Center,
 } from '@chakra-ui/react';
 
 const WeekTestResultPage = ({ week, result, onContinue }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { score, total, percentage, passed } = result;
+
+  const handleContinue = async () => {
+    setIsLoading(true);
+    await onContinue();
+    setIsLoading(false);
+  };
 
   return (
     <Box minH="100vh" bg="gray.50" py={12}>
@@ -61,7 +69,7 @@ const WeekTestResultPage = ({ week, result, onContinue }) => {
                   📚 Keep Practicing
                 </Heading>
                 <Text fontSize="lg" color="gray.600">
-                  You scored below 70%. We've added more problems to Week {week}{' '}
+                  You scored below 70%. We're adding more problems to Week {week}{' '}
                   to help you improve.
                 </Text>
                 <Text fontSize="md" color="gray.500">
@@ -72,15 +80,26 @@ const WeekTestResultPage = ({ week, result, onContinue }) => {
           </Box>
 
           {/* Action Button */}
-          <Button
-            size="lg"
-            colorScheme={passed ? 'green' : 'orange'}
-            onClick={onContinue}
-            w="full"
-            maxW="400px"
-          >
-            {passed ? 'Continue to Roadmap →' : 'Back to Week ' + week}
-          </Button>
+          {isLoading ? (
+            <Center py={8}>
+              <VStack spacing={4}>
+                <Spinner size="xl" color="brand.500" thickness="4px" />
+                <Text color="gray.600" fontWeight="medium">
+                  {passed ? 'Returning to roadmap...' : 'Adding more problems...'}
+                </Text>
+              </VStack>
+            </Center>
+          ) : (
+            <Button
+              size="lg"
+              colorScheme={passed ? 'green' : 'orange'}
+              onClick={handleContinue}
+              w="full"
+              maxW="400px"
+            >
+              {passed ? 'Continue to Roadmap →' : 'Back to Week ' + week}
+            </Button>
+          )}
         </VStack>
       </Container>
     </Box>

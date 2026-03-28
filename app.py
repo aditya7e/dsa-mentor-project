@@ -97,5 +97,50 @@ def get_topic_quiz(topic):
             "message": str(e)
         }), 500
 
+@app.route('/api/problems/additional/<topic>/<difficulty>', methods=['GET'])
+def get_additional_problems(topic, difficulty):
+    """
+    Get 3-5 additional problems for a topic at a specific difficulty
+    """
+    try:
+        # Load problems database
+        import json
+        with open('problems_database.json', 'r') as f:
+            db = json.load(f)
+        
+        if topic not in db:
+            return jsonify({
+                "status": "error",
+                "message": f"Topic {topic} not found"
+            }), 404
+        
+        # Get all problems for this topic
+        all_problems = db[topic]['problems']
+        
+        # Filter by difficulty if specified
+        if difficulty and difficulty != 'mixed':
+            filtered = [p for p in all_problems if p['difficulty'] == difficulty]
+        else:
+            filtered = all_problems
+        
+        # Randomly select 3-5 problems
+        import random
+        num_problems = min(5, len(filtered))
+        if num_problems < 3:
+            num_problems = len(filtered)
+        
+        selected = random.sample(filtered, num_problems) if filtered else []
+        
+        return jsonify({
+            "status": "success",
+            "problems": selected
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

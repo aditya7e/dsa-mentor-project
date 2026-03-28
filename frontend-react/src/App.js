@@ -87,39 +87,74 @@ function App() {
         />
       )}
 
-      {currentPage === 'weekTestResult' && (
-        <WeekTestResultPage
-          week={currentWeekTest}
-          result={weekTestResult}
-          onContinue={() => {
-            // If failed, add more problems to the week
-            if (!weekTestResult.passed) {
-              // Add 3 more problems to current week
-              const updatedRoadmap = [...roadmap];
-              const weekIndex = updatedRoadmap.findIndex(w => w.week === currentWeekTest);
+{currentPage === 'weekTestResult' && (
+  <WeekTestResultPage
+    week={currentWeekTest}
+    result={weekTestResult}
+    onContinue={async () => {
+      // If failed, fetch and add more problems
+      if (!weekTestResult.passed) {
+        const updatedRoadmap = [...roadmap];
+        const weekIndex = updatedRoadmap.findIndex(w => w.week === currentWeekTest);
+        
+        if (weekIndex !== -1) {
+          const weekData = updatedRoadmap[weekIndex];
+          
+          try {
+            // Fetch additional problems from backend
+            const response = await fetch(
+              `http://localhost:5000/api/problems/additional/${encodeURIComponent(weekData.topic)}/mixed`
+            );
+            const result = await response.json();
+            
+            if (result.status === 'success' && result.problems.length > 0) {
+              // Add new problems to the week
+              const newProblems = result.problems.filter(
+                newP => !updatedRoadmap[weekIndex].problems.some(existingP => existingP.id === newP.id)
+              );
               
-              if (weekIndex !== -1) {
-                // Mark that this week needs more problems
-                updatedRoadmap[weekIndex].needsMoreProblems = true;
-              }
+              updatedRoadmap[weekIndex].problems = [
+                ...updatedRoadmap[weekIndex].problems,
+                ...newProblems
+              ];
               
-              setRoadmap(updatedRoadmap);
+              updatedRoadmap[weekIndex].total_problems = updatedRoadmap[weekIndex].problems.length;
+              
+              // Update difficulty split
+              const easyCo = updatedRoadmap[weekIndex].problems.filter(p => p.difficulty === 'Easy').length;
+              const mediumCo = updatedRoadmap[weekIndex].problems.filter(p => p.difficulty === 'Medium').length;
+              const hardCo = updatedRoadmap[weekIndex].problems.filter(p => p.difficulty === 'Hard').length;
+              
+              updatedRoadmap[weekIndex].difficulty_split = {
+                Easy: easyCo,
+                Medium: mediumCo,
+                Hard: hardCo
+              };
+              
+              console.log(`Added ${newProblems.length} new problems to Week ${currentWeekTest}`);
             }
-            
-            // Save test result to localStorage
-            const weekProgress = JSON.parse(localStorage.getItem('weekProgress') || '{}');
-            weekProgress[currentWeekTest] = {
-              tested: true,
-              passed: weekTestResult.passed,
-              score: weekTestResult.score,
-              percentage: weekTestResult.percentage,
-            };
-            localStorage.setItem('weekProgress', JSON.stringify(weekProgress));
-            
-            goToPage('roadmap');
-          }}
-        />
-      )}
+          } catch (error) {
+            console.error('Failed to fetch additional problems:', error);
+          }
+          
+          setRoadmap(updatedRoadmap);
+        }
+      }
+      
+      // Save test result to localStorage
+      const weekProgress = JSON.parse(localStorage.getItem('weekProgress') || '{}');
+      weekProgress[currentWeekTest] = {
+        tested: true,
+        passed: weekTestResult.passed,
+        score: weekTestResult.score,
+        percentage: weekTestResult.percentage,
+      };
+      localStorage.setItem('weekProgress', JSON.stringify(weekProgress));
+      
+      goToPage('roadmap');
+    }}
+  />
+)}
     </Box>
   );
 }
