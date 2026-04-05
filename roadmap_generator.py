@@ -3,7 +3,7 @@ import json
 import random
 
 # Initialize Gemini client
-client = genai.Client(api_key="AIzaSyBfaCWHvuaPV9mhNmUgaeIB4VaIbdEjsuI")
+client = genai.Client(api_key="//")
 
 # Load problems database
 with open('problems_database.json', 'r') as f:
@@ -49,10 +49,17 @@ def analyze_quiz_results(user_answers, quiz_questions):
 def build_roadmap_prompt(analysis):
     """
     Build Chain-of-Thought prompt for LLM based on quiz analysis
+    Respects topic hierarchy: Basic → Intermediate → Advanced
+    Adjusts difficulty based on user's performance in each topic
     """
     total = analysis['total_questions']
     score = analysis['total_score']
     percentage = (score / total) * 100
+    
+    # Topic categorization by learning level
+    BASIC_TOPICS = ['Arrays', 'String', 'Linked List', 'Stack and Queue', 'Recursion']
+    INTERMEDIATE_TOPICS = ['Binary Search', 'Binary Tree', 'Binary Search Tree', 'Heaps', 'Greedy']
+    ADVANCED_TOPICS = ['Graph', 'Dynamic Programming', 'Trie']
     
     # Format difficulty performance
     diff_text = ""
@@ -61,22 +68,65 @@ def build_roadmap_prompt(analysis):
             acc = (stats['correct'] / stats['total']) * 100
             diff_text += f"- {diff}: {stats['correct']}/{stats['total']} correct ({acc:.1f}%)\n"
     
-    # Format topic performance
-    topic_text = ""
-    weak_topics = []
-    medium_topics = []
-    strong_topics = []
+    # Categorize topics by performance AND level
+    basic_weak = []
+    basic_medium = []
+    basic_strong = []
+    
+    intermediate_weak = []
+    intermediate_medium = []
+    intermediate_strong = []
+    
+    advanced_weak = []
+    advanced_medium = []
+    advanced_strong = []
     
     for topic, stats in analysis['topic_stats'].items():
         acc = (stats['correct'] / stats['total']) * 100
-        topic_text += f"- {topic}: {stats['correct']}/{stats['total']} correct ({acc:.1f}%)\n"
         
-        if acc < 50:
-            weak_topics.append(topic)
-        elif acc >= 50 and acc <= 70:
-            medium_topics.append(topic)
-        else:
-            strong_topics.append(topic)
+        # Categorize by level and performance
+        if topic in BASIC_TOPICS:
+            if acc < 50:
+                basic_weak.append(f"{topic} ({acc:.0f}%)")
+            elif acc <= 70:
+                basic_medium.append(f"{topic} ({acc:.0f}%)")
+            else:
+                basic_strong.append(f"{topic} ({acc:.0f}%)")
+        
+        elif topic in INTERMEDIATE_TOPICS:
+            if acc < 50:
+                intermediate_weak.append(f"{topic} ({acc:.0f}%)")
+            elif acc <= 70:
+                intermediate_medium.append(f"{topic} ({acc:.0f}%)")
+            else:
+                intermediate_strong.append(f"{topic} ({acc:.0f}%)")
+        
+        elif topic in ADVANCED_TOPICS:
+            if acc < 50:
+                advanced_weak.append(f"{topic} ({acc:.0f}%)")
+            elif acc <= 70:
+                advanced_medium.append(f"{topic} ({acc:.0f}%)")
+            else:
+                advanced_strong.append(f"{topic} ({acc:.0f}%)")
+    
+    # Calculate overall performance in each level
+    def calc_level_performance(topic_list, all_topics):
+        if not all_topics:
+            return 100  # If not tested, assume mastery
+        total_correct = 0
+        total_questions = 0
+        for topic_entry in all_topics:
+            topic_name = topic_entry.split('(')[0].strip()
+            if topic_name in analysis['topic_stats']:
+                total_correct += analysis['topic_stats'][topic_name]['correct']
+                total_questions += analysis['topic_stats'][topic_name]['total']
+        return (total_correct / total_questions * 100) if total_questions > 0 else 100
+    
+    all_basic = basic_weak + basic_medium + basic_strong
+    all_intermediate = intermediate_weak + intermediate_medium + intermediate_strong
+    
+    basic_performance = calc_level_performance(BASIC_TOPICS, all_basic)
+    intermediate_performance = calc_level_performance(INTERMEDIATE_TOPICS, all_intermediate)
     
     # Get available topics from database
     available_topics = list(PROBLEMS_DB.keys())
@@ -92,116 +142,185 @@ Total Score: {score}/{total} ({percentage:.1f}%)
 Difficulty Performance:
 {diff_text}
 
-Topic Performance:
-{topic_text}
+TOPIC PERFORMANCE BY LEARNING LEVEL:
+====================================
 
-Weak Topics (< 50%): {', '.join(weak_topics) if weak_topics else 'None'}
-Medium Topics (50-70%): {', '.join(medium_topics) if medium_topics else 'None'}
-Strong Topics (> 70%): {', '.join(strong_topics) if strong_topics else 'None'}
+BASIC TOPICS (Foundation - Learn First):
+- Weak (< 50%): {', '.join(basic_weak) if basic_weak else 'None'}
+- Medium (50-70%): {', '.join(basic_medium) if basic_medium else 'None'}
+- Strong (> 70%): {', '.join(basic_strong) if basic_strong else 'None'}
+- Overall Basic Performance: {basic_performance:.0f}%
+
+INTERMEDIATE TOPICS (Need Basic Foundation):
+- Weak (< 50%): {', '.join(intermediate_weak) if intermediate_weak else 'None'}
+- Medium (50-70%): {', '.join(intermediate_medium) if intermediate_medium else 'None'}
+- Strong (> 70%): {', '.join(intermediate_strong) if intermediate_strong else 'None'}
+- Overall Intermediate Performance: {intermediate_performance:.0f}%
+
+ADVANCED TOPICS (Need Strong Foundation):
+- Weak (< 50%): {', '.join(advanced_weak) if advanced_weak else 'None'}
+- Medium (50-70%): {', '.join(advanced_medium) if advanced_medium else 'None'}
+- Strong (> 70%): {', '.join(advanced_strong) if advanced_strong else 'None'}
 
 AVAILABLE TOPICS (use ONLY these exact names):
 {topic_list}
 
+TOPIC HIERARCHY (MUST FOLLOW):
+==============================
+BASIC: Arrays, String, Linked List, Stack and Queue, Recursion
+INTERMEDIATE: Binary Search, Binary Tree, Binary Search Tree, Heaps, Greedy
+ADVANCED: Graph, Dynamic Programming, Trie
+
 CHAIN-OF-THOUGHT REASONING PROCESS:
 ===================================
-Think through this step-by-step:
 
-STEP 1: IDENTIFY PRIORITY TOPICS
-- Which 2-3 topics need the most focus? (weakest topics)
-- Which topics should we introduce later? (medium topics)
-- Which topics can have harder problems? (strong topics)
+STEP 1: DETERMINE STARTING LEVEL
+- If Basic Performance < 70%: START with Basic topics ONLY (weeks 1-4)
+- If Basic Performance ≥ 70% AND Intermediate < 70%: START with Intermediate topics
+- If both Basic AND Intermediate ≥ 70%: Can include Advanced topics
 
-STEP 2: PLAN WEEK DISTRIBUTION
-- Weeks 1-2: Focus ONLY on weakest topic with mostly Easy problems
-- Weeks 3-4: Continue weak topics OR introduce medium topics
-- Weeks 5-6: Mix of medium and weak topics with Medium problems
-- Weeks 7-8: Strong topics OR new topics with Hard problems
+STEP 2: PRIORITIZE WITHIN EACH LEVEL
+- Focus on weakest topics within the appropriate level
+- Example: If user weak in Arrays (40%) and Graph (0%), prioritize Arrays first (it's basic)
+- NEVER jump to Advanced topics if Basic topics are weak
 
-STEP 3: DETERMINE DIFFICULTY PROGRESSION
-For each topic, based on user's difficulty performance:
-- If user scored < 50% on Easy: Give 80% Easy, 20% Medium
-- If user scored 50-70% on Easy: Give 60% Easy, 30% Medium, 10% Hard
-- If user scored > 70% on Easy: Give 30% Easy, 50% Medium, 20% Hard
+STEP 3: PLAN PROGRESSION
+- Weeks 1-3: Weakest BASIC topics (if any weak basic topics exist)
+- Weeks 4-5: Medium BASIC topics OR start INTERMEDIATE (if basics are strong)
+- Weeks 6-7: INTERMEDIATE topics (if basics mastered)
+- Week 8: ADVANCED topics (ONLY if both basic and intermediate are strong)
 
-STEP 4: GENERATE EXACTLY 8 WEEKS
-Count as you go: Week 1, Week 2, ..., Week 8
-Each week must have 5-8 problems total.
+STEP 4: DIFFICULTY DISTRIBUTION (Based on user's performance in that specific topic)
+
+FOR BASIC TOPICS (Arrays, String, Linked List, Stack and Queue, Recursion):
+- If user WEAK (< 50%): 70% Easy, 30% Medium, 0% Hard
+- If user MEDIUM (50-70%): 30% Easy, 60% Medium, 10% Hard
+- If user STRONG (> 70%): 0% Easy, 50% Medium, 50% Hard
+
+FOR INTERMEDIATE TOPICS (Binary Search, Binary Tree, BST, Heaps, Greedy):
+- If user WEAK (< 50%): 60% Easy, 40% Medium, 0% Hard
+- If user MEDIUM (50-70%): 20% Easy, 70% Medium, 10% Hard
+- If user STRONG (> 70%): 0% Easy, 40% Medium, 60% Hard
+
+FOR ADVANCED TOPICS (Graph, Dynamic Programming, Trie):
+- If user WEAK (< 50%): 50% Easy, 50% Medium, 0% Hard
+- If user MEDIUM (50-70%): 10% Easy, 60% Medium, 30% Hard
+- If user STRONG (> 70%): 0% Easy, 30% Medium, 70% Hard
+
+CRITICAL: Match difficulty to user's ACTUAL performance in that specific topic.
+Example: If user scored 65% in Arrays (MEDIUM), give 30% Easy, 60% Medium, 10% Hard.
+Example: If user scored 85% in Binary Tree (STRONG), give 0% Easy, 40% Medium, 60% Hard.
+Example: If user scored 35% in Linked List (WEAK), give 70% Easy, 30% Medium, 0% Hard.
 
 CRITICAL RULES:
 ==============
 1. Generate EXACTLY 8 weeks - no more, no less
-2. Use ONLY topics from this list: {topic_list}
-3. Do NOT combine topics (WRONG: "Arrays and Strings", CORRECT: "Arrays")
-4. Each week focuses on ONE topic only
-5. Week numbers must be 1, 2, 3, 4, 5, 6, 7, 8
+2. RESPECT TOPIC HIERARCHY - Never suggest Graph/DP if user weak in Arrays/Linked List
+3. Use ONLY topics from this list: {topic_list}
+4. Do NOT combine topics (WRONG: "Arrays and Strings", CORRECT: "Arrays")
+5. Each week focuses on ONE topic only
+6. Week numbers must be 1, 2, 3, 4, 5, 6, 7, 8
+7. ADJUST DIFFICULTY based on user's performance in that specific topic
 
-EXAMPLE OF GOOD OUTPUT:
+EXAMPLE SCENARIOS:
+
+SCENARIO A: User weak in basics (Arrays 40%, Binary Tree 30%, Graph 0%)
+CORRECT roadmap: Start with Arrays (weeks 1-2), then other basics, NO Graph until week 7-8
+WRONG roadmap: Starting with Graph because 0% score
+
+SCENARIO B: User strong in basics (Arrays 85%, Linked List 90%), weak in intermediate
+CORRECT: Focus on intermediate topics (Binary Tree, BST, Heaps)
+WRONG: Spending weeks on Arrays when already mastered
+
+SCENARIO C: User medium in Arrays (65%)
+CORRECT difficulty: 30% Easy, 60% Medium, 10% Hard (challenge them!)
+WRONG difficulty: 70% Easy, 30% Medium (too basic for their level)
+
+EXAMPLE OF GOOD OUTPUT (for a user who is MEDIUM in Arrays 65%, WEAK in Binary Tree 35%):
 {{
   "roadmap": [
     {{
       "week": 1,
-      "topic": "Binary Tree",
+      "topic": "Arrays",
       "total_problems": 7,
-      "difficulty_split": {{"Easy": 5, "Medium": 2, "Hard": 0}},
-      "focus": "Master basic traversals: inorder, preorder, postorder"
+      "difficulty_split": {{"Easy": 2, "Medium": 4, "Hard": 1}},
+      "focus": "Advanced array techniques: sliding window, two pointers (user already has basics)"
     }},
     {{
       "week": 2,
-      "topic": "Binary Tree",
+      "topic": "Arrays",
       "total_problems": 6,
-      "difficulty_split": {{"Easy": 3, "Medium": 3, "Hard": 0}},
-      "focus": "Tree properties: height, diameter, balanced trees"
+      "difficulty_split": {{"Easy": 2, "Medium": 3, "Hard": 1}},
+      "focus": "Complex array problems: prefix sum, binary search on arrays"
     }},
     {{
       "week": 3,
-      "topic": "Graph",
-      "total_problems": 6,
-      "difficulty_split": {{"Easy": 4, "Medium": 2, "Hard": 0}},
-      "focus": "Graph basics: DFS and BFS traversal"
+      "topic": "Binary Tree",
+      "total_problems": 7,
+      "difficulty_split": {{"Easy": 4, "Medium": 3, "Hard": 0}},
+      "focus": "Tree traversal fundamentals (user is weak, start with easier problems)"
     }},
     {{
       "week": 4,
-      "topic": "Graph",
-      "total_problems": 7,
-      "difficulty_split": {{"Easy": 2, "Medium": 4, "Hard": 1}},
-      "focus": "Cycle detection and topological sort"
+      "topic": "Binary Tree",
+      "total_problems": 6,
+      "difficulty_split": {{"Easy": 4, "Medium": 2, "Hard": 0}},
+      "focus": "Tree properties and basic recursion"
     }},
     {{
       "week": 5,
-      "topic": "Dynamic Programming",
+      "topic": "Linked List",
       "total_problems": 6,
-      "difficulty_split": {{"Easy": 3, "Medium": 3, "Hard": 0}},
-      "focus": "DP fundamentals: memoization and tabulation"
+      "difficulty_split": {{"Easy": 4, "Medium": 2, "Hard": 0}},
+      "focus": "Linked list basics and reversal"
     }},
     {{
       "week": 6,
-      "topic": "Dynamic Programming",
+      "topic": "Stack and Queue",
       "total_problems": 7,
-      "difficulty_split": {{"Easy": 2, "Medium": 3, "Hard": 2}},
-      "focus": "Classic DP patterns: knapsack, LCS, LIS"
+      "difficulty_split": {{"Easy": 3, "Medium": 3, "Hard": 1}},
+      "focus": "Stack/Queue applications"
     }},
     {{
       "week": 7,
-      "topic": "Linked List",
+      "topic": "Binary Search Tree",
       "total_problems": 6,
-      "difficulty_split": {{"Easy": 2, "Medium": 3, "Hard": 1}},
-      "focus": "Advanced linked list: reversal, cycle detection"
+      "difficulty_split": {{"Easy": 3, "Medium": 3, "Hard": 0}},
+      "focus": "BST operations and validation"
     }},
     {{
       "week": 8,
-      "topic": "Stack and Queue",
+      "topic": "Heaps",
       "total_problems": 7,
       "difficulty_split": {{"Easy": 2, "Medium": 4, "Hard": 1}},
-      "focus": "Stack/Queue applications: monotonic stack, sliding window"
+      "focus": "Priority queue and heap applications"
     }}
   ]
 }}
 
+NOTICE: 
+- Arrays gets harder problems (2 Easy, 4 Medium, 1 Hard) because user is MEDIUM (65%).
+- Binary Tree gets easier problems (4 Easy, 3 Medium) because user is WEAK (35%).
+- This respects both topic hierarchy AND user's actual performance level.
+
+BEFORE GENERATING EACH WEEK:
+1. Check user's performance in that specific topic from the analysis above
+2. Classify as WEAK (< 50%), MEDIUM (50-70%), or STRONG (> 70%)
+3. Identify if topic is BASIC/INTERMEDIATE/ADVANCED
+4. Apply the appropriate difficulty distribution from STEP 4
+5. Adjust problem count to match the difficulty split
+
+DOUBLE CHECK: 
+- If user scored 60% in a topic, they should NOT get 70% Easy problems!
+- If user scored 85% in a topic, they should get 0% Easy problems!
+- Respect the topic hierarchy - basics before advanced!
+
 NOW, FOLLOWING THE CHAIN-OF-THOUGHT PROCESS ABOVE:
 
-First, think through steps 1-3 silently.
-
-Then, generate your roadmap with EXACTLY 8 weeks.
+First, analyze the user's performance level (Basic/Intermediate/Advanced).
+Then, think through which level to start from.
+For each week, check the user's score in that topic and apply correct difficulty.
+Finally, generate your roadmap with EXACTLY 8 weeks, respecting both topic hierarchy AND difficulty appropriateness.
 
 Return ONLY valid JSON (no explanations, no markdown, no code blocks):
 """
